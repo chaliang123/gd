@@ -49,7 +49,8 @@ let joyRunFlag = true;
 let jdNotify = true;//是否开启静默运行，默认true开启
 let joyRunNotify = true;//宠汪汪赛跑获胜后是否推送通知，true推送，false不推送通知
 let JD_API_HOST = 'https://jdjoy.jd.com'
-$.invokeKey = 'RtKLB8euDo7KwsO0'
+$.invokeKey = 'JL1VTNRadM68cIMQ'
+$.invokeKey = $.isNode() ? (process.env.JD_invokeKey ? process.env.JD_invokeKey : `${$.invokeKey}`) : ($.getdata('JD_invokeKey') ? $.getdata('JD_invokeKey') : `${$.invokeKey}`);
 let lkt = 0
 if(process.env.JOY_HOST){
   JD_API_HOST = process.env.JOY_HOST
@@ -57,7 +58,7 @@ if(process.env.JOY_HOST){
 
 const weAppUrl = 'https://jdjoy.jd.com//pet';
 // const validator = require('./JDJRValidator.js');
-const validator = require('./tool/JDJRValidator_Pure.js');
+const validator = require('./JDJRValidator_Pure.js');
 $.get=validator.injectToRequest($.get.bind($))
 $.post=validator.injectToRequest($.post.bind($))
 !(async () => {
@@ -935,6 +936,8 @@ function taskPostUrl(url, body, reqSource, Host, ContentType) {
       'Host': Host,
       'origin': 'https://h5.m.jd.com',
       'referer': 'https://h5.m.jd.com/',
+      "lks": $.md5(""+$.invokeKey+lkt),
+      "lkt": lkt
     }
   }
 }
